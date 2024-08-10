@@ -101,11 +101,21 @@ app.whenReady().then(() => {
   
 
   ipcMain.on('applyStage', (_, s) => {
+    stage = s
     if (isViewerWindowOpen()) {
       viewerWindow.webContents.send('setStage', s)
     }
     if (isResponderWindowOpen()) {
       responderWindow.webContents.send('setStage', s)
+    }
+  })
+
+  ipcMain.on('syncStage', () => {
+    if (isViewerWindowOpen()) {
+      viewerWindow.webContents.send('setStage', stage)
+    }
+    if (isResponderWindowOpen()) {
+      responderWindow.webContents.send('setStage', stage)
     }
   })
 
