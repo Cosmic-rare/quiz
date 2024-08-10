@@ -1,17 +1,16 @@
 import { useState } from 'react'
 
 function Viewer(): JSX.Element {
-  const [count, setCount] = useState(0)
+  const [stage, setStage] = useState(0)
   // @ts-ignore
-  window.api.onPong(() => {
-    setCount(count + 1)
-    console.log('pong!')
+  window.api.onSetStage((s) => {
+    setStage(s)
   })
 
   return (
     <>
     <p>Viewer</p>
-      {count} pong
+    <code>{stage}</code>
     </>
   )
 }

@@ -3,7 +3,7 @@ import { useState } from "react"
 function App(): JSX.Element {
   // window.api.ping()
   const [stage, setStage] = useState(1)
-  
+
   return (
     <>
       <select value={stage} onChange={(e) => setStage(parseInt(e.target.value))}>
@@ -14,6 +14,9 @@ function App(): JSX.Element {
 
       {/* @ts-ignore */}
       <button onClick={() => window.api.applyStage(stage)}>apply</button>
+
+      {/* @ts-ignore */}
+      <button onClick={() => window.electron.ipcRenderer.send('createWindow')}>open</button>
     </>
   )
 }

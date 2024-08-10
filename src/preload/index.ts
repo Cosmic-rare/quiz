@@ -4,7 +4,7 @@ import { electronAPI } from '@electron-toolkit/preload'
 // Custom APIs for renderer
 const api = {
   applyStage: (stage) => ipcRenderer.send('applyStage', stage),
-  onPong: (callback) => ipcRenderer.on('pong', callback)
+  onSetStage: (callback) => ipcRenderer.on('setStage', (_, s) => callback(s)),
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

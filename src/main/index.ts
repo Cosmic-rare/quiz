@@ -101,12 +101,11 @@ app.whenReady().then(() => {
   
 
   ipcMain.on('applyStage', (_, s) => {
-    console.log(s)
     if (isViewerWindowOpen()) {
-      // viewerWindow.webContents.send('pong')
+      viewerWindow.webContents.send('setStage', s)
     }
     if (isResponderWindowOpen()) {
-      // responderWindow.webContents.send('pong')
+      responderWindow.webContents.send('setStage', s)
     }
   })
 
