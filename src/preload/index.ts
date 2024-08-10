@@ -6,7 +6,8 @@ const api = {
   applyStage: (stage) => ipcRenderer.send('applyStage', stage),
   onSetStage: (callback) => ipcRenderer.on('setStage', (_, s) => callback(s)),
   syncStage: (stage) => ipcRenderer.send('syncStage', stage),
-  save: () => ipcRenderer.invoke('save'),
+  loadFile: () => ipcRenderer.send('loadFile'),
+  selectFile: () => ipcRenderer.invoke('selectFile'),
 }
 
 // Use `contextBridge` APIs to expose Electron APIs to

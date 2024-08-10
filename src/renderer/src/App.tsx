@@ -1,5 +1,4 @@
 import { useState } from "react"
-import { BrowserWindow, dialog } from "electron"
 
 function App(): JSX.Element {
   const [stage, setStage] = useState(1)
@@ -32,10 +31,13 @@ function App(): JSX.Element {
       <div>
         <button onClick={async () => {
           // @ts-ignore
-          const p = await window.api.save()
-          console.log(p)
+          const p = await window.api.selectFile()
           setFilePath(p)
-        }}>save</button>
+        }}>selectFile</button>
+
+        {/* @ts-ignore */}
+        <button onClick={() => window.api.loadFile()}>loadFile</button>
+
         <code>{filePath}</code>
       </div>
     </>

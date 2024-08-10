@@ -2,9 +2,11 @@ import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
+import { readFile, readFileSync } from 'fs'
 
 let mainWindow
 let stage = 1
+let settingFilePath: string
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
@@ -119,9 +121,9 @@ app.whenReady().then(() => {
     }
   })
 
-  ipcMain.handle('save', () => {
-    return dialog
-    .showOpenDialog(mainWindow, {
+  ipcMain.handle('selectFile', async () => {
+    const p = await dialog
+    .showOpenDialogSync(mainWindow, {
       properties: ['openFile'],
       filters: [
         {
@@ -130,12 +132,15 @@ app.whenReady().then(() => {
         },
       ],
     })
-    .then((result) => {
-      if (result.canceled) return
-      console.log(result.filePaths[0])
-      return result.filePaths[0]
-    })
-    .catch((err) => console.log(`Error: ${err}`))
+
+    settingFilePath = p ? p[0] : ''
+    return settingFilePath
+  })
+
+  ipcMain.on('loadFile', () => {
+    console.log(settingFilePath)
+    const d = readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' })
+    console.log(d)
   })
 
   createWindow()
