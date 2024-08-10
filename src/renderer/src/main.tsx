@@ -1,11 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import Sub from './sub'
+import Viewer from "./viewer"
 import {
   createHashRouter,
   RouterProvider,
 } from "react-router-dom"
+import Responder from './responder'
 
 const router = createHashRouter([
   {
@@ -13,8 +14,12 @@ const router = createHashRouter([
     element: <App />,
   },
   {
-    path: "/sub",
-    element: <Sub />,
+    path: "/viewer",
+    element: <Viewer />,
+  },
+  {
+    path: "/responder",
+    element: <Responder />,
   },
 ]);
 

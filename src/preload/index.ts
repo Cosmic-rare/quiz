@@ -3,7 +3,7 @@ import { electronAPI } from '@electron-toolkit/preload'
 
 // Custom APIs for renderer
 const api = {
-  ping: () => ipcRenderer.send('ping'),
+  applyStage: (stage) => ipcRenderer.send('applyStage', stage),
   onPong: (callback) => ipcRenderer.on('pong', callback)
 }
 

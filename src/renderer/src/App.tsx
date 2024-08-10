@@ -1,16 +1,19 @@
-function App(): JSX.Element {
-  const ipcHandle1 = (): void => window.electron.ipcRenderer.send('createWindow')
-  // @ts-ignore
-  const ipcHandle2 = (): void =>  window.api.ping()
+import { useState } from "react"
 
+function App(): JSX.Element {
+  // window.api.ping()
+  const [stage, setStage] = useState(1)
+  
   return (
     <>
-      <button onClick={ipcHandle1}>
-        subwindow
-      </button>
-      <button onClick={ipcHandle2}>
-        ping
-      </button>
+      <select value={stage} onChange={(e) => setStage(parseInt(e.target.value))}>
+        <option>1</option>
+        <option>2</option>
+        <option>3</option>
+      </select>
+
+      {/* @ts-ignore */}
+      <button onClick={() => window.api.applyStage(stage)}>apply</button>
     </>
   )
 }
