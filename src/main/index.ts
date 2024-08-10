@@ -1,4 +1,4 @@
-import { app, shell, BrowserWindow, ipcMain } from 'electron'
+import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
@@ -117,6 +117,25 @@ app.whenReady().then(() => {
     if (isResponderWindowOpen()) {
       responderWindow.webContents.send('setStage', stage)
     }
+  })
+
+  ipcMain.handle('save', () => {
+    return dialog
+    .showOpenDialog(mainWindow, {
+      properties: ['openFile'],
+      filters: [
+        {
+          name: 'json',
+          extensions: ['json'],
+        },
+      ],
+    })
+    .then((result) => {
+      if (result.canceled) return
+      console.log(result.filePaths[0])
+      return result.filePaths[0]
+    })
+    .catch((err) => console.log(`Error: ${err}`))
   })
 
   createWindow()
