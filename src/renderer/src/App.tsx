@@ -44,6 +44,9 @@ function App(): JSX.Element {
         {/* @ts-ignore */}
         <button onClick={() => window.api.loadFile()}>loadFile</button>
 
+        {/* @ts-ignore */}
+        <button onClick={() => window.api.saveFile(s)}>saveFile</button>
+
         <code>{filePath}</code>
       </div>
 

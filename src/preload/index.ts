@@ -8,6 +8,7 @@ const api = {
   loadFile: () => ipcRenderer.send('loadFile'),
   onLoadState: (callback) => ipcRenderer.on('loadState', (_, d) => callback(d)),
   selectFile: () => ipcRenderer.invoke('selectFile'),
+  saveFile: (s) => ipcRenderer.send('saveFile', s)
 }
 
 if (process.contextIsolated) {
