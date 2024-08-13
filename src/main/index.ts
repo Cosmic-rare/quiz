@@ -11,7 +11,7 @@ let settingFilePath: string
 function createWindow(): void {
   mainWindow = new BrowserWindow({
     width: 300,
-    height: 200,
+    height: 500,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),

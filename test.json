@@ -11,11 +11,11 @@
     "log": []
   },
   "s2": {
-    "responder": [],
+    "responder": ["", "", "", ""],
     "log": []
   },
   "s3": {
-    "responder": [],
+    "responder": ["", ""],
     "log": []
   }
 }
