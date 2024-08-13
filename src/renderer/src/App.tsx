@@ -2,11 +2,17 @@ import { useState } from "react"
 
 function App(): JSX.Element {
   const [stage, setStage] = useState(1)
+  const [s, setS] = useState({ responder: [], log: [] })
   const [filePath, setFilePath] = useState<null | string>(null)
 
   // @ts-ignore
-  window.api.onSetStage((s) => {
-    setStage(s)
+  window.api.onSetStage((ss) => {
+    setStage(ss)
+  })
+
+  // @ts-ignore
+  window.api.onLoadState((ss) => {
+    setS(ss)
   })
 
   return (
@@ -39,6 +45,10 @@ function App(): JSX.Element {
         <button onClick={() => window.api.loadFile()}>loadFile</button>
 
         <code>{filePath}</code>
+      </div>
+
+      <div>
+        <code>{JSON.stringify(s)}</code>
       </div>
     </>
   )

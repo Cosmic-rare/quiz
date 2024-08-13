@@ -7,6 +7,7 @@ const api = {
   onSetStage: (callback) => ipcRenderer.on('setStage', (_, s) => callback(s)),
   syncStage: (stage) => ipcRenderer.send('syncStage', stage),
   loadFile: () => ipcRenderer.send('loadFile'),
+  onLoadState: (callback) => ipcRenderer.on('loadState', (_, d) => callback(d)),
   selectFile: () => ipcRenderer.invoke('selectFile'),
 }
 

@@ -2,7 +2,7 @@ import { app, shell, BrowserWindow, ipcMain, dialog } from 'electron'
 import { join } from 'path'
 import { electronApp, optimizer, is } from '@electron-toolkit/utils'
 import icon from '../../resources/icon.png?asset'
-import { readFile, readFileSync } from 'fs'
+import { readFileSync } from 'fs'
 
 let mainWindow
 let stage = 1
@@ -139,8 +139,8 @@ app.whenReady().then(() => {
 
   ipcMain.on('loadFile', () => {
     console.log(settingFilePath)
-    const d = readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' })
-    console.log(d)
+    const d = JSON.parse(readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' }))
+    mainWindow.webContents.send('loadState', d[`s${stage}`])
   })
 
   createWindow()
