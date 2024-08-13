@@ -47,8 +47,27 @@ function App(): JSX.Element {
         <code>{filePath}</code>
       </div>
 
+      <hr />
       <div>
         <code>{JSON.stringify(s)}</code>
+      </div>
+
+      <hr />
+      <div>
+        <div>
+          {s.responder.map((v, i) => (
+            <input
+              value={v}
+              key={i}
+              onChange={(e) => setS((ss) => {
+                let sss = {...ss}
+                /// @ts-ignore
+                sss.responder[i] = e.target.value
+                return sss
+              })}
+            />
+          ))}
+        </div>
       </div>
     </>
   )
