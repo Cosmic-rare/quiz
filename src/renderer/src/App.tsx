@@ -4,6 +4,7 @@ function App(): JSX.Element {
   const [stage, setStage] = useState(1)
   const [s, setS] = useState({ responder: [], log: [] })
   const [filePath, setFilePath] = useState<null | string>(null)
+  const [score, setScore] = useState<any[]>([])
 
   // @ts-ignore
   window.api.onSetStage((ss) => {
@@ -12,6 +13,21 @@ function App(): JSX.Element {
 
   // @ts-ignore
   window.api.onLoadState((ss) => {
+    let sc = new Array(ss.responder.length).fill(0)
+    ss.log.forEach(l => {
+      switch (l[0]) {
+        case "s":
+          sc[l.split(" ")[1]] = l.split(" ")[2]
+          break
+        case "i":
+          sc[l.split(" ")[1]]++
+          break
+        case "d":
+          sc[l.split(" ")[1]]--
+          break
+      }
+    })
+    setScore(sc)
     setS(ss)
   })
 
@@ -69,6 +85,24 @@ function App(): JSX.Element {
                 return sss
               })}
             />
+          ))}
+        </div>
+      </div>
+
+      <hr />
+      <div>
+        <div>
+          {s.log.map((v, i) => (
+            <code key={i} style={{ display: "block" }}>{v}</code>
+          ))}
+        </div>
+      </div>
+
+      <hr />
+      <div>
+        <div>
+          {score.map((v, i) => (
+            <code key={i} style={{ display: "block" }}>{v}</code>
           ))}
         </div>
       </div>
