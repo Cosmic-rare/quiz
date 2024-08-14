@@ -1,10 +1,22 @@
 import { useState } from "react"
 
+const LogItem = ({ l, selected }) => {
+  switch (l[0]) {
+    case "s":
+      return <code style={{ display: "block" }}>{`${selected ? ">" : ""} ${l.split(" ")[1]}  ${l.split(" ")[2]}`}</code>
+    case "i":
+      return <code style={{ display: "block" }}>{`${selected ? ">" : ""} ${l.split(" ")[1]} +`}</code>
+    case "d":
+      return <code style={{ display: "block" }}>{`${selected ? ">" : ""} ${l.split(" ")[1]} -`}</code>
+  }
+}
+
 function App(): JSX.Element {
   const [stage, setStage] = useState(1)
   const [s, setS] = useState({ responder: [], log: [] })
   const [filePath, setFilePath] = useState<null | string>(null)
   const [score, setScore] = useState<any[]>([])
+  const [selectedLog, setSelectedLog] = useState(0)
 
   // @ts-ignore
   window.api.onSetStage((ss) => {
@@ -79,7 +91,7 @@ function App(): JSX.Element {
               value={v}
               key={i}
               onChange={(e) => setS((ss) => {
-                let sss = {...ss}
+                let sss = { ...ss }
                 /// @ts-ignore
                 sss.responder[i] = e.target.value
                 return sss
@@ -91,9 +103,33 @@ function App(): JSX.Element {
 
       <hr />
       <div>
+        <button onClick={() => {
+          setS((pre) => {
+            if (s.log.length - 1 == selectedLog) { return pre }
+            let lo = [...pre.log]
+            const tmp = lo[selectedLog]
+            lo[selectedLog] = lo[selectedLog + 1]
+            lo[selectedLog + 1] = tmp
+            setSelectedLog(selectedLog + 1)
+            return { ...pre, log: lo }
+          })
+        }}>↓</button>
+        <button onClick={() => {
+          setS((pre) => {
+            if (0 == selectedLog) { return pre }
+            let lo = [...pre.log]
+            const tmp = lo[selectedLog]
+            lo[selectedLog] = lo[selectedLog - 1]
+            lo[selectedLog - 1] = tmp
+            setSelectedLog(selectedLog - 1)
+            return { ...pre, log: lo }
+          })
+        }}>↑</button>
         <div>
           {s.log.map((v, i) => (
-            <code key={i} style={{ display: "block" }}>{v}</code>
+            <div key={i} onClick={() => setSelectedLog(i)}>
+              <LogItem l={v} selected={i == selectedLog} />
+            </div>
           ))}
         </div>
       </div>
