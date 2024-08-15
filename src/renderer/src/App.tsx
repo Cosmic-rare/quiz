@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react"
 
-// scoreをapplyするとは、保存→読み出し→算出→それを送信
-
 const LogItem = ({ l, selected }) => {
   switch (l[0]) {
     case "s":
@@ -33,7 +31,7 @@ function App(): JSX.Element {
     ss.log.forEach(l => {
       switch (l[0]) {
         case "s":
-          sc[l.split(" ")[1]] = l.split(" ")[2]
+          sc[l.split(" ")[1]] = parseInt(l.split(" ")[2])
           break
         case "i":
           sc[l.split(" ")[1]]++
@@ -53,7 +51,7 @@ function App(): JSX.Element {
     s.log.forEach(l => {
       switch (l[0]) {
         case "s":
-          sc[l.split(" ")[1]] = l.split(" ")[2]
+          sc[l.split(" ")[1]] = parseInt(l.split(" ")[2])
           break
         case "i":
           sc[l.split(" ")[1]]++
@@ -75,8 +73,12 @@ function App(): JSX.Element {
           <option>3</option>
         </select>
 
-        {/* @ts-ignore */}
-        <button onClick={() => window.api.applyStage(stage)}>apply</button>
+        <button disabled={!filePath} onClick={() => {
+          // @ts-ignore
+          window.api.applyStage(stage)
+          // @ts-ignore
+          window.api.loadFile()
+        }}>apply</button>
 
         {/* @ts-ignore */}
         <button onClick={() => window.api.syncStage()}>sync</button>
@@ -93,10 +95,10 @@ function App(): JSX.Element {
         }}>selectFile</button>
 
         {/* @ts-ignore */}
-        <button onClick={() => window.api.loadFile()}>loadFile</button>
+        <button onClick={() => window.api.loadFile()} disabled={!filePath}>loadFile</button>
 
         {/* @ts-ignore */}
-        <button onClick={() => window.api.saveFile(s)}>saveFile</button>
+        <button onClick={() => window.api.saveFile(s)} disabled={!filePath}>saveFile</button>
 
         <code>{filePath}</code>
       </div>
@@ -176,6 +178,10 @@ function App(): JSX.Element {
       <hr />
       <div>
         <p>preview score</p>
+        <button disabled={!filePath} onClick={() => {
+          // @ts-ignore
+          window.api.applyData(s)
+        }}>apply</button>
         <div>
           {previewScore.map((v, i) => (
             <code key={i} style={{ display: "block" }}>{v}</code>

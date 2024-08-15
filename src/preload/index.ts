@@ -8,7 +8,9 @@ const api = {
   loadFile: () => ipcRenderer.send('loadFile'),
   onLoadState: (callback) => ipcRenderer.on('loadState', (_, d) => callback(d)),
   selectFile: () => ipcRenderer.invoke('selectFile'),
-  saveFile: (s) => ipcRenderer.send('saveFile', s)
+  saveFile: (s) => ipcRenderer.send('saveFile', s),
+  applyData: (s) => ipcRenderer.send('applyData', s),
+  onLoadScore: (callback) => ipcRenderer.on('loadScore', (_, d) => callback(d)),
 }
 
 if (process.contextIsolated) {

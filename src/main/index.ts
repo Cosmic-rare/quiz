@@ -10,8 +10,8 @@ let settingFilePath: string
 
 function createWindow(): void {
   mainWindow = new BrowserWindow({
-    width: 300,
-    height: 500,
+    width: 400,
+    height: 700,
     show: false,
     autoHideMenuBar: true,
     ...(process.platform === 'linux' ? { icon } : {}),
@@ -147,6 +147,35 @@ app.whenReady().then(() => {
     let d = JSON.parse(readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' }))
     d[`s${stage}`] = s
     writeFileSync(settingFilePath, JSON.stringify(d), { encoding: 'utf8' })
+  })
+
+  ipcMain.on('applyData', (_, s) => {
+    let d = JSON.parse(readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' }))
+    d[`s${stage}`] = s
+    writeFileSync(settingFilePath, JSON.stringify(d), { encoding: 'utf8' })
+    
+    let sc = new Array(s.responder.length).fill(0)
+    s.log.forEach(l => {
+      switch (l[0]) {
+        case "s":
+          sc[l.split(" ")[1]] = parseInt(l.split(" ")[2])
+          break
+        case "i":
+          sc[l.split(" ")[1]]++
+          break
+        case "d":
+          sc[l.split(" ")[1]]--
+          break
+      }
+    })
+
+    mainWindow.webContents.send('loadState', s)
+    if (isViewerWindowOpen()) {
+      viewerWindow.webContents.send('loadScore', sc)
+    }
+    if (isResponderWindowOpen()) {
+      responderWindow.webContents.send('loadScore', sc)
+    }
   })
 
   createWindow()
