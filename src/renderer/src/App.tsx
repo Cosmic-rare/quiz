@@ -13,10 +13,11 @@ const LogItem = ({ l, selected }) => {
 
 function App(): JSX.Element {
   const [stage, setStage] = useState(1)
-  const [s, setS] = useState({ responder: [], log: [] })
+  const [s, setS] = useState<any>({ responder: [], log: [] })
   const [filePath, setFilePath] = useState<null | string>(null)
   const [score, setScore] = useState<any[]>([])
   const [selectedLog, setSelectedLog] = useState(0)
+  const [addLogScore, setAddLogScore] = useState<any>(0)
 
   // @ts-ignore
   window.api.onSetStage((ss) => {
@@ -87,6 +88,7 @@ function App(): JSX.Element {
       <div>
         <div>
           {s.responder.map((v, i) => (
+            <div>
             <input
               value={v}
               key={i}
@@ -97,6 +99,16 @@ function App(): JSX.Element {
                 return sss
               })}
             />
+            <button onClick={() => setS((pre) => {
+              return { responder: pre.responder, log: [...pre.log, `i ${i}`] }
+            })}>+</button>
+            <button onClick={() => setS((pre) => {
+              return { responder: pre.responder, log: [...pre.log, `d ${i}`] }
+            })}>-</button>
+            <button onClick={() => setS((pre) => {
+              return { responder: pre.responder, log: [...pre.log, `s ${i} ${addLogScore}`] }
+            })}>s</button>
+            </div>
           ))}
         </div>
       </div>
@@ -125,6 +137,13 @@ function App(): JSX.Element {
             return { ...pre, log: lo }
           })
         }}>↑</button>
+        <button onClick={() => {
+          setS((pre) => {
+            let lo = [...pre.log]
+            lo.splice(selectedLog, 1)
+            return { ...pre, log: lo }
+          })
+        }}>del</button>
         <div>
           {s.log.map((v, i) => (
             <div key={i} onClick={() => setSelectedLog(i)}>
@@ -132,6 +151,9 @@ function App(): JSX.Element {
             </div>
           ))}
         </div>
+        <button onClick={() => setAddLogScore((p) => p+1)}>+</button>
+        {addLogScore}
+        <button onClick={() => setAddLogScore((p) => p-1)}>-</button>
       </div>
 
       <hr />
