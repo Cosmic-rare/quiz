@@ -3,7 +3,7 @@ import { electronAPI } from '@electron-toolkit/preload'
 
 const api = {
   applyStage: (stage) => ipcRenderer.send('applyStage', stage),
-  onSetStage: (callback) => ipcRenderer.on('setStage', (_, s) => callback(s)),
+  onSetStage: (callback) => ipcRenderer.on('setStage', (_, s, r) => callback(s, r)),
   syncStage: (stage) => ipcRenderer.send('syncStage', stage),
   loadFile: () => ipcRenderer.send('loadFile'),
   onLoadState: (callback) => ipcRenderer.on('loadState', (_, d) => callback(d)),

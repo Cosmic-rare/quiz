@@ -5,7 +5,7 @@ function Responder(): JSX.Element {
   const [score, setScore] = useState([])
   
   // @ts-ignore
-  window.api.onSetStage((s) => {
+  window.api.onSetStage((s, _) => {
     setStage(s)
   })
 
@@ -16,10 +16,11 @@ function Responder(): JSX.Element {
 
   return (
     <>
-    <p>Responder</p>
-    <code>{stage}</code>
-    <hr />
-    <code>{JSON.stringify(score)}</code>
+    <p>第{stage}ステージ</p>
+    <p>問題文</p>
+    {[...score].reverse().map((v, i) => (
+      <code key={i}>{v}{' '}</code>
+    ))}
     </>
   )
 }

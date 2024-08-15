@@ -3,10 +3,12 @@ import { useState } from 'react'
 function Viewer(): JSX.Element {
   const [stage, setStage] = useState(0)
   const [score, setScore] = useState([])
+  const [responder, setResponder] = useState([])
 
   // @ts-ignore
-  window.api.onSetStage((s) => {
+  window.api.onSetStage((s, r) => {
     setStage(s)
+    setResponder(r)
   })
 
   // @ts-ignore
@@ -16,10 +18,10 @@ function Viewer(): JSX.Element {
 
   return (
     <>
-    <p>Viewer</p>
-    <code>{stage}</code>
+    <code>{stage}ステージ</code>
     <hr />
     <code>{JSON.stringify(score)}</code>
+    <code>{JSON.stringify(responder)}</code>
     </>
   )
 }

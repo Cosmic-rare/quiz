@@ -104,20 +104,24 @@ app.whenReady().then(() => {
 
   ipcMain.on('applyStage', (_, s) => {
     stage = s
+    const d = JSON.parse(readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' }))
+
     if (isViewerWindowOpen()) {
-      viewerWindow.webContents.send('setStage', s)
+      viewerWindow.webContents.send('setStage', s, d[`s${stage}`].responder)
     }
     if (isResponderWindowOpen()) {
-      responderWindow.webContents.send('setStage', s)
+      responderWindow.webContents.send('setStage', s, d[`s${stage}`].responder)
     }
   })
 
   ipcMain.on('syncStage', () => {
+    const d = JSON.parse(readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' }))
+
     if (isViewerWindowOpen()) {
-      viewerWindow.webContents.send('setStage', stage)
+      viewerWindow.webContents.send('setStage', stage, d[`s${stage}`].responder)
     }
     if (isResponderWindowOpen()) {
-      responderWindow.webContents.send('setStage', stage)
+      responderWindow.webContents.send('setStage', stage, d[`s${stage}`].responder)
     }
   })
 
@@ -138,7 +142,6 @@ app.whenReady().then(() => {
   })
 
   ipcMain.on('loadFile', () => {
-    console.log(settingFilePath)
     const d = JSON.parse(readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' }))
     mainWindow.webContents.send('loadState', d[`s${stage}`])
   })
