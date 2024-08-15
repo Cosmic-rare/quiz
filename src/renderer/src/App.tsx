@@ -1,4 +1,6 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+
+// scoreをapplyするとは、保存→読み出し→算出→それを送信
 
 const LogItem = ({ l, selected }) => {
   switch (l[0]) {
@@ -16,6 +18,7 @@ function App(): JSX.Element {
   const [s, setS] = useState<any>({ responder: [], log: [] })
   const [filePath, setFilePath] = useState<null | string>(null)
   const [score, setScore] = useState<any[]>([])
+  const [previewScore, setPreviewScore] = useState<any[]>([])
   const [selectedLog, setSelectedLog] = useState(0)
   const [addLogScore, setAddLogScore] = useState<any>(0)
 
@@ -41,8 +44,27 @@ function App(): JSX.Element {
       }
     })
     setScore(sc)
+    setPreviewScore(sc)
     setS(ss)
   })
+
+  useEffect(() => {
+    let sc = new Array(s.responder.length).fill(0)
+    s.log.forEach(l => {
+      switch (l[0]) {
+        case "s":
+          sc[l.split(" ")[1]] = l.split(" ")[2]
+          break
+        case "i":
+          sc[l.split(" ")[1]]++
+          break
+        case "d":
+          sc[l.split(" ")[1]]--
+          break
+      }
+    })
+    setPreviewScore(sc)
+  }, [s])
 
   return (
     <>
@@ -77,11 +99,6 @@ function App(): JSX.Element {
         <button onClick={() => window.api.saveFile(s)}>saveFile</button>
 
         <code>{filePath}</code>
-      </div>
-
-      <hr />
-      <div>
-        <code>{JSON.stringify(s)}</code>
       </div>
 
       <hr />
@@ -158,6 +175,17 @@ function App(): JSX.Element {
 
       <hr />
       <div>
+        <p>preview score</p>
+        <div>
+          {previewScore.map((v, i) => (
+            <code key={i} style={{ display: "block" }}>{v}</code>
+          ))}
+        </div>
+      </div>
+
+      <hr />
+      <div>
+        <p>score</p>
         <div>
           {score.map((v, i) => (
             <code key={i} style={{ display: "block" }}>{v}</code>
