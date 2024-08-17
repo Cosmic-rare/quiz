@@ -1,68 +1,18 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
+import Type1 from "./components/type1"
+import Type2 from "./components/type2"
 
-const LogItem = ({ l, selected }) => {
-  switch (l[0]) {
-    case "s":
-      return <code style={{ display: "block" }}>{`${selected ? ">" : ""} ${l.split(" ")[1]}  ${l.split(" ")[2]}`}</code>
-    case "i":
-      return <code style={{ display: "block" }}>{`${selected ? ">" : ""} ${l.split(" ")[1]} +`}</code>
-    case "d":
-      return <code style={{ display: "block" }}>{`${selected ? ">" : ""} ${l.split(" ")[1]} -`}</code>
-  }
-}
+// {"s1":{"responder":["佐藤","田中","山田","伊藤","佐々木","高野"],"log":["s 5 2","i 0"],"question":["a","b","c"]},"s2":{"responder":["僕","私","吾","俺"],"log":[],"question":["『蒸気船ウィリー』という作品で初登場した、ディズニーを代表するキャラクターは"]},"s3":{"responder":["僕","吾"],"log":["i 0","i 0","i 0","i 1","i 1","i 0","i 1"],"question":["a","b"]}}
 
 function App(): JSX.Element {
   const [stage, setStage] = useState(1)
-  const [s, setS] = useState<any>({ responder: [], log: [] })
+  const [s, setS] = useState<any>({ responder: [], log: [], question: [] })
   const [filePath, setFilePath] = useState<null | string>(null)
-  const [score, setScore] = useState<any[]>([])
-  const [previewScore, setPreviewScore] = useState<any[]>([])
-  const [selectedLog, setSelectedLog] = useState(0)
-  const [addLogScore, setAddLogScore] = useState<any>(0)
 
   // @ts-ignore
   window.api.onSetStage((ss) => {
     setStage(ss)
   })
-
-  // @ts-ignore
-  window.api.onLoadState((ss) => {
-    let sc = new Array(ss.responder.length).fill(0)
-    ss.log.forEach(l => {
-      switch (l[0]) {
-        case "s":
-          sc[l.split(" ")[1]] = parseInt(l.split(" ")[2])
-          break
-        case "i":
-          sc[l.split(" ")[1]]++
-          break
-        case "d":
-          sc[l.split(" ")[1]]--
-          break
-      }
-    })
-    setScore(sc)
-    setPreviewScore(sc)
-    setS(ss)
-  })
-
-  useEffect(() => {
-    let sc = new Array(s.responder.length).fill(0)
-    s.log.forEach(l => {
-      switch (l[0]) {
-        case "s":
-          sc[l.split(" ")[1]] = parseInt(l.split(" ")[2])
-          break
-        case "i":
-          sc[l.split(" ")[1]]++
-          break
-        case "d":
-          sc[l.split(" ")[1]]--
-          break
-      }
-    })
-    setPreviewScore(sc)
-  }, [s])
 
   return (
     <>
@@ -104,100 +54,14 @@ function App(): JSX.Element {
       </div>
 
       <hr />
-      <div>
-        <div>
-          {s.responder.map((v, i) => (
-            <div>
-            <input
-              value={v}
-              key={i}
-              onChange={(e) => setS((ss) => {
-                let sss = { ...ss }
-                /// @ts-ignore
-                sss.responder[i] = e.target.value
-                return sss
-              })}
-            />
-            <button onClick={() => setS((pre) => {
-              return { responder: pre.responder, log: [...pre.log, `i ${i}`] }
-            })}>+</button>
-            <button onClick={() => setS((pre) => {
-              return { responder: pre.responder, log: [...pre.log, `d ${i}`] }
-            })}>-</button>
-            <button onClick={() => setS((pre) => {
-              return { responder: pre.responder, log: [...pre.log, `s ${i} ${addLogScore}`] }
-            })}>s</button>
-            </div>
-          ))}
-        </div>
-      </div>
 
-      <hr />
-      <div>
-        <button onClick={() => {
-          setS((pre) => {
-            if (s.log.length - 1 == selectedLog) { return pre }
-            let lo = [...pre.log]
-            const tmp = lo[selectedLog]
-            lo[selectedLog] = lo[selectedLog + 1]
-            lo[selectedLog + 1] = tmp
-            setSelectedLog(selectedLog + 1)
-            return { ...pre, log: lo }
-          })
-        }}>↓</button>
-        <button onClick={() => {
-          setS((pre) => {
-            if (0 == selectedLog) { return pre }
-            let lo = [...pre.log]
-            const tmp = lo[selectedLog]
-            lo[selectedLog] = lo[selectedLog - 1]
-            lo[selectedLog - 1] = tmp
-            setSelectedLog(selectedLog - 1)
-            return { ...pre, log: lo }
-          })
-        }}>↑</button>
-        <button onClick={() => {
-          setS((pre) => {
-            let lo = [...pre.log]
-            lo.splice(selectedLog, 1)
-            return { ...pre, log: lo }
-          })
-        }}>del</button>
-        <div>
-          {s.log.map((v, i) => (
-            <div key={i} onClick={() => setSelectedLog(i)}>
-              <LogItem l={v} selected={i == selectedLog} />
-            </div>
-          ))}
-        </div>
-        <button onClick={() => setAddLogScore((p) => p+1)}>+</button>
-        {addLogScore}
-        <button onClick={() => setAddLogScore((p) => p-1)}>-</button>
-      </div>
+      {stage == 2 ?
+        <Type2 s={s} setS={setS} filePath={filePath} /> :
+        stage != 0 ?
+          <Type1 s={s} setS={setS} filePath={filePath} />
+          : <></>
+      }
 
-      <hr />
-      <div>
-        <p>preview score</p>
-        <button disabled={!filePath} onClick={() => {
-          // @ts-ignore
-          window.api.applyData(s)
-        }}>apply</button>
-        <div>
-          {previewScore.map((v, i) => (
-            <code key={i} style={{ display: "block" }}>{v}</code>
-          ))}
-        </div>
-      </div>
-
-      <hr />
-      <div>
-        <p>score</p>
-        <div>
-          {score.map((v, i) => (
-            <code key={i} style={{ display: "block" }}>{v}</code>
-          ))}
-        </div>
-      </div>
     </>
   )
 }

@@ -11,6 +11,9 @@ const api = {
   saveFile: (s) => ipcRenderer.send('saveFile', s),
   applyData: (s) => ipcRenderer.send('applyData', s),
   onLoadScore: (callback) => ipcRenderer.on('loadScore', (_, d) => callback(d)),
+  displayQuestion: (q) => ipcRenderer.send('displayQuestion', q),
+  hideQuestion: () => ipcRenderer.send('hideQuestion'),
+  onSetQuestion: (callback) => ipcRenderer.on('setQuestion', (_, q) => callback(q)),
 }
 
 if (process.contextIsolated) {
