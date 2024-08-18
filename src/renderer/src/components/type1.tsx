@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 
 function App({ s, setS, filePath }) {
   const [score, setScore] = useState<any[]>([])
-  const [previewScore, setPreviewScore] = useState<any[]>([])
   const [selectedLog, setSelectedLog] = useState(0)
   const [addLogScore, setAddLogScore] = useState<any>(0)
   const [selectedQuestion, setSelectedQuestion] = useState(0)
@@ -37,11 +36,13 @@ function App({ s, setS, filePath }) {
       }
     })
     setScore(sc)
-    setPreviewScore(sc)
     setS(ss)
   })
 
   useEffect(() => {
+    // @ts-ignore
+    window.api.applyData(s)
+
     let sc = new Array(s.responder.length).fill(0)
     s.log.forEach(l => {
       switch (l[0]) {
@@ -56,7 +57,7 @@ function App({ s, setS, filePath }) {
           break
       }
     })
-    setPreviewScore(sc)
+    setScore(sc)
   }, [s])
 
   return (
@@ -76,13 +77,13 @@ function App({ s, setS, filePath }) {
                 })}
               />
               <button onClick={() => setS((pre) => {
-                return { responder: pre.responder, log: [...pre.log, `i ${i}`] }
+                return { ...pre, log: [...pre.log, `i ${i}`] }
               })}>+</button>
               <button onClick={() => setS((pre) => {
-                return { responder: pre.responder, log: [...pre.log, `d ${i}`] }
+                return { ...pre, log: [...pre.log, `d ${i}`] }
               })}>-</button>
               <button onClick={() => setS((pre) => {
-                return { responder: pre.responder, log: [...pre.log, `s ${i} ${addLogScore}`] }
+                return { ...pre, log: [...pre.log, `s ${i} ${addLogScore}`] }
               })}>s</button>
             </div>
           ))}
@@ -139,7 +140,7 @@ function App({ s, setS, filePath }) {
         {/* @ts-ignore */}
         <button onClick={() => window.api.hideQuestion()}>hide</button>
         <div>
-          {s.question.map((v, i) => (
+          {s.question?.map((v, i) => (
             <div key={i} onClick={() => setSelectedQuestion(i)}>
               <code>{i == selectedQuestion ? "> " : ""}{v}</code>
             </div>
@@ -148,28 +149,7 @@ function App({ s, setS, filePath }) {
       </div>
 
       <hr />
-      <div>
-        <p>preview score</p>
-        <button disabled={!filePath} onClick={() => {
-          // @ts-ignore
-          window.api.applyData(s)
-        }}>apply</button>
-        <div>
-          {previewScore.map((v, i) => (
-            <code key={i} style={{ display: "block" }}>{v}</code>
-          ))}
-        </div>
-      </div>
-
-      <hr />
-      <div>
-        <p>score</p>
-        <div>
-          {score.map((v, i) => (
-            <code key={i} style={{ display: "block" }}>{v}</code>
-          ))}
-        </div>
-      </div>
+      <code>{JSON.stringify(score)}</code>
     </>
   )
 }

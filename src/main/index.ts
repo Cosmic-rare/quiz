@@ -106,22 +106,20 @@ app.whenReady().then(() => {
     stage = s
     const d = JSON.parse(readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' }))
 
+    if (s == 1 || s == 3) {
+      if (isViewerWindowOpen()) {
+        viewerWindow.webContents.send('setQuestion', '')
+      }
+      if (isResponderWindowOpen()) {
+        responderWindow.webContents.send('setQuestion', '')
+      }
+    }
+    mainWindow.webContents.send('setStage', s)
     if (isViewerWindowOpen()) {
       viewerWindow.webContents.send('setStage', s, d[`s${stage}`].responder)
     }
     if (isResponderWindowOpen()) {
       responderWindow.webContents.send('setStage', s, d[`s${stage}`].responder)
-    }
-  })
-
-  ipcMain.on('syncStage', () => {
-    const d = JSON.parse(readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' }))
-
-    if (isViewerWindowOpen()) {
-      viewerWindow.webContents.send('setStage', stage, d[`s${stage}`].responder)
-    }
-    if (isResponderWindowOpen()) {
-      responderWindow.webContents.send('setStage', stage, d[`s${stage}`].responder)
     }
   })
 
@@ -155,11 +153,7 @@ app.whenReady().then(() => {
     writeFileSync(settingFilePath, JSON.stringify(d), { encoding: 'utf8' })
   })
 
-  ipcMain.on('applyData', (_, s) => {
-    let d = JSON.parse(readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' }))
-    d[`s${stage}`] = s
-    writeFileSync(settingFilePath, JSON.stringify(d), { encoding: 'utf8' })
-    
+  ipcMain.on('applyData', (_, s) => {    
     let sc = new Array(s.responder.length).fill(0)
     s.log.forEach(l => {
       switch (l[0]) {
@@ -175,7 +169,6 @@ app.whenReady().then(() => {
       }
     })
 
-    mainWindow.webContents.send('loadState', s)
     if (isViewerWindowOpen()) {
       viewerWindow.webContents.send('loadScore', sc)
     }
@@ -197,7 +190,6 @@ app.whenReady().then(() => {
   })
 
   ipcMain.on('setQuestionStatus', (_, q) => {
-    console.log(q)
     if (isViewerWindowOpen()) {
       viewerWindow.webContents.send('onSetQuestionStatus', q)
     }

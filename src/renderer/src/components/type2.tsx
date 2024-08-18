@@ -120,7 +120,6 @@ function App({ s, setS, filePath }) {
 
       <hr />
       <div>
-        <button onClick={genQuestionStatus}>update</button>
         {s.question[0]?.split("").map((v, i) => (
           <span
             key={i}

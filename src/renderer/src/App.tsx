@@ -6,12 +6,14 @@ import Type2 from "./components/type2"
 
 function App(): JSX.Element {
   const [stage, setStage] = useState(1)
+  const [mainStage, setMainStage] = useState(null)
   const [s, setS] = useState<any>({ responder: [], log: [], question: [] })
   const [filePath, setFilePath] = useState<null | string>(null)
 
   // @ts-ignore
-  window.api.onSetStage((ss) => {
-    setStage(ss)
+  window.api.onSetStage((s, _) => {
+    console.log(s)
+    setMainStage(s)
   })
 
   return (
@@ -29,9 +31,6 @@ function App(): JSX.Element {
           // @ts-ignore
           window.api.loadFile()
         }}>apply</button>
-
-        {/* @ts-ignore */}
-        <button onClick={() => window.api.syncStage()}>sync</button>
 
         {/* @ts-ignore */}
         <button onClick={() => window.electron.ipcRenderer.send('createWindow')}>open</button>
@@ -55,11 +54,13 @@ function App(): JSX.Element {
 
       <hr />
 
-      {stage == 2 ?
-        <Type2 s={s} setS={setS} filePath={filePath} /> :
-        stage != 0 ?
-          <Type1 s={s} setS={setS} filePath={filePath} />
-          : <></>
+      {mainStage == null ?
+        <></>
+        : mainStage == 2 ?
+          <Type2 s={s} setS={setS} filePath={filePath} /> :
+          mainStage != 0 ?
+            <Type1 s={s} setS={setS} filePath={filePath} />
+            : <></>
       }
 
     </>
