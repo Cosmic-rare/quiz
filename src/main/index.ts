@@ -144,6 +144,9 @@ app.whenReady().then(() => {
   ipcMain.on('loadFile', () => {
     const d = JSON.parse(readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' }))
     mainWindow.webContents.send('loadState', d[`s${stage}`])
+    if (stage == 2 && isViewerWindowOpen()) {
+      viewerWindow.webContents.send('setQuestion', d[`s${stage}`].question[0])
+    }
   })
 
   ipcMain.on('saveFile', (_, s) => {
@@ -190,6 +193,13 @@ app.whenReady().then(() => {
   ipcMain.on('hideQuestion', () => {
     if (isViewerWindowOpen()) {
       viewerWindow.webContents.send('setQuestion', "")
+    }
+  })
+
+  ipcMain.on('setQuestionStatus', (_, q) => {
+    console.log(q)
+    if (isViewerWindowOpen()) {
+      viewerWindow.webContents.send('onSetQuestionStatus', q)
     }
   })
 

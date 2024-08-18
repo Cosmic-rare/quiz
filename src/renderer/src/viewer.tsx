@@ -1,8 +1,9 @@
 import { useState } from 'react'
+import VType1 from "./components/vType1"
+import VType2 from "./components/vType2"
 
-function Viewer(): JSX.Element {
+function Viewer() {
   const [stage, setStage] = useState(0)
-  const [score, setScore] = useState([])
   const [responder, setResponder] = useState([])
   const [question, setQuestion] = useState("")
 
@@ -13,25 +14,21 @@ function Viewer(): JSX.Element {
   })
 
   // @ts-ignore
-  window.api.onLoadScore((ss) => {
-    setScore(ss)
-  })
-
-  // @ts-ignore
   window.api.onSetQuestion((q) => {
     setQuestion(q)
   })
 
-  return (
-    <>
-    <code>{stage}ステージ</code>
-    <span>{question}</span>
-    <hr />
-    <code>{JSON.stringify(score)}</code>
-    <br />
-    <code>{JSON.stringify(responder)}</code>
-    </>
-  )
+  if (stage==0) {
+    return (<>準備中</>)
+  }
+
+  if (stage==1 || stage==3) {
+    return <VType1 responder={responder} stage={stage} question={question} />
+  }
+
+  if (stage==2) {
+    return <VType2 responder={responder} stage={stage} question={question} />
+  }
 }
 
 export default Viewer

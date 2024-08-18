@@ -14,6 +14,8 @@ const api = {
   displayQuestion: (q) => ipcRenderer.send('displayQuestion', q),
   hideQuestion: () => ipcRenderer.send('hideQuestion'),
   onSetQuestion: (callback) => ipcRenderer.on('setQuestion', (_, q) => callback(q)),
+  setQuestionStatus: (q) => ipcRenderer.send('setQuestionStatus', q),
+  onSetQuestionStatus: (callback) => ipcRenderer.on('onSetQuestionStatus', (_, q) => callback(q)),
 }
 
 if (process.contextIsolated) {

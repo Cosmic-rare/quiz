@@ -1,50 +1,55 @@
 import { useEffect, useState } from "react"
 
 function App({ s, setS, filePath }) {
-  const [score, setScore] = useState<any[]>([])
-  const [previewScore, setPreviewScore] = useState<any[]>([])
   const [selectedLog, setSelectedLog] = useState(0)
   const [addLogScore, setAddLogScore] = useState<any>(0)
+  const [questionStatus, setQuestionStatus] = useState<any>([])
+  const [selectedStr, setSelectedStr] = useState(0)
+  const colors = ["red", "blue", "orange", "green"]
 
   const LogItem = ({ l, selected }) => {
     switch (l[0]) {
-      case "s":
-        return <code style={{ display: "block" }}>{`${selected ? ">" : ""} ${s.responder[parseInt(l.split(" ")[1])]}  ${l.split(" ")[2]}`}</code>
+      case "o":
+        return <code style={{ display: "block" }}>{`${selected ? ">" : ""} ${s.responder[parseInt(l.split(" ")[1])]}  ${s.question[0][l.split(" ")[2]]}`}</code>
     }
   }
 
   // @ts-ignore
   window.api.onLoadState((ss) => {
-    let sc = new Array(ss.responder.length).fill(0)
+    let qs = new Array(ss.question[0]?.length).fill(null)
     ss.log.forEach(l => {
       switch (l[0]) {
-        case "s":
-          sc[l.split(" ")[1]] = parseInt(l.split(" ")[2])
+        case "o":
+          qs[l.split(" ")[2]] = parseInt(l.split(" ")[1])
           break
       }
     })
-    setScore(sc)
-    setPreviewScore(sc)
+    setQuestionStatus(qs)
     setS(ss)
   })
 
-  useEffect(() => {
-    let sc = new Array(s.responder.length).fill(0)
+  const genQuestionStatus = () => {
+    let qs = new Array(s.question[0]?.length).fill(null)
     s.log.forEach(l => {
       switch (l[0]) {
-        case "s":
-          sc[l.split(" ")[1]] = parseInt(l.split(" ")[2])
-          break
-        case "i":
-          sc[l.split(" ")[1]]++
-          break
-        case "d":
-          sc[l.split(" ")[1]]--
+        case "o":
+          qs[l.split(" ")[2]] = parseInt(l.split(" ")[1])
           break
       }
     })
-    setPreviewScore(sc)
+    setQuestionStatus(qs)
+    // @ts-ignore
+    window.api.setQuestionStatus(qs)
+  }
+
+  useEffect(() => {
+    genQuestionStatus()
   }, [s])
+
+  useEffect(() => {
+    // @ts-ignore
+    window.api.displayQuestion(s.question[0])
+  }, [])
 
   return (
     <>
@@ -63,14 +68,8 @@ function App({ s, setS, filePath }) {
                 })}
               />
               <button onClick={() => setS((pre) => {
-                return { responder: pre.responder, log: [...pre.log, `i ${i}`] }
-              })}>+</button>
-              <button onClick={() => setS((pre) => {
-                return { responder: pre.responder, log: [...pre.log, `d ${i}`] }
-              })}>-</button>
-              <button onClick={() => setS((pre) => {
-                return { responder: pre.responder, log: [...pre.log, `s ${i} ${addLogScore}`] }
-              })}>s</button>
+                return { ...pre, log: [...pre.log, `o ${i} ${selectedStr}`] }
+              })}>o</button>
             </div>
           ))}
         </div>
@@ -121,31 +120,16 @@ function App({ s, setS, filePath }) {
 
       <hr />
       <div>
-        {s.question[0]}
-      </div>
-
-      <hr />
-      <div>
-        <p>preview score</p>
-        <button disabled={!filePath} onClick={() => {
-          // @ts-ignore
-          window.api.applyData(s)
-        }}>apply</button>
-        <div>
-          {previewScore.map((v, i) => (
-            <code key={i} style={{ display: "block" }}>{v}</code>
-          ))}
-        </div>
-      </div>
-
-      <hr />
-      <div>
-        <p>score</p>
-        <div>
-          {score.map((v, i) => (
-            <code key={i} style={{ display: "block" }}>{v}</code>
-          ))}
-        </div>
+        <button onClick={genQuestionStatus}>update</button>
+        {s.question[0]?.split("").map((v, i) => (
+          <span
+            key={i}
+            style={{ border: `${selectedStr == i ? "4px solid black" : `2px solid ${questionStatus[i] != null ? colors[questionStatus[i]] : "transparent"}`}` }}
+            onClick={() => setSelectedStr(i)}
+          >
+            {v}
+          </span>
+        ))}
       </div>
     </>
   )
