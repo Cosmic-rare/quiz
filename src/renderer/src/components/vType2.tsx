@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function Viewer({ stage, responder, question }) {
+function Viewer({ stage, responder, question2, question }) {
   const colors = ["red", "blue", "orange", "green"]
   const [questionStatus, setQuestionStatue] = useState<any>([])
   const [responderStatus, setResponderStatus] = useState<any>([])
@@ -21,8 +21,9 @@ function Viewer({ stage, responder, question }) {
       <hr />
       <code>{JSON.stringify(responder)}</code>
       <code>{JSON.stringify(responderStatus)}</code>
+      <code>{question}</code>
       <hr />
-      {question?.split("").map((v, i) => (
+      {question2?.split("").map((v, i) => (
           <span
             key={i}
             style={{ border: `2px solid ${questionStatus[i] != null ? colors[questionStatus[i]] : "transparent"}` }}

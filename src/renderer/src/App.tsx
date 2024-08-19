@@ -57,9 +57,9 @@ function App(): JSX.Element {
       {mainStage == null ?
         <></>
         : mainStage == 2 ?
-          <Type2 s={s} setS={setS} filePath={filePath} /> :
+          <Type2 s={s} setS={setS} /> :
           mainStage != 0 ?
-            <Type1 s={s} setS={setS} filePath={filePath} />
+            <Type1 s={s} setS={setS} />
             : <></>
       }
 

@@ -6,6 +6,7 @@ function Viewer() {
   const [stage, setStage] = useState(0)
   const [responder, setResponder] = useState([])
   const [question, setQuestion] = useState("")
+  const [question2, setQuestion2] = useState("")
 
   // @ts-ignore
   window.api.onSetStage((s, r) => {
@@ -18,6 +19,12 @@ function Viewer() {
     setQuestion(q)
   })
 
+  // @ts-ignore
+  window.api.onSetQuestion2((q) => {
+    setQuestion2(q)
+  })
+
+
   if (stage==0) {
     return (<>準備中</>)
   }
@@ -27,7 +34,7 @@ function Viewer() {
   }
 
   if (stage==2) {
-    return <VType2 responder={responder} stage={stage} question={question} />
+    return <VType2 responder={responder} stage={stage} question2={question2} question={question} />
   }
 }
 

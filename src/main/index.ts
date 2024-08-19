@@ -106,7 +106,7 @@ app.whenReady().then(() => {
     stage = s
     const d = JSON.parse(readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' }))
 
-    if (s == 1 || s == 3) {
+    if (s == 1 || s == 2 || s == 3) {
       if (isViewerWindowOpen()) {
         viewerWindow.webContents.send('setQuestion', '')
       }
@@ -143,7 +143,7 @@ app.whenReady().then(() => {
     const d = JSON.parse(readFileSync(settingFilePath, { encoding: 'utf8', flag: 'r' }))
     mainWindow.webContents.send('loadState', d[`s${stage}`])
     if (stage == 2 && isViewerWindowOpen()) {
-      viewerWindow.webContents.send('setQuestion', d[`s${stage}`].question[0])
+      viewerWindow.webContents.send('setQuestion2', d[`s${stage}`].question[0])
     }
   })
 
@@ -192,6 +192,24 @@ app.whenReady().then(() => {
     }
     if (isViewerWindowOpen()) {
       responderWindow.webContents.send('setQuestion', "")
+    }
+  })
+
+  ipcMain.on('displayQuestion2', (_, q) => {
+    if (isViewerWindowOpen()) {
+      viewerWindow.webContents.send('setQuestion2', q)
+    }
+    if (isViewerWindowOpen()) {
+      responderWindow.webContents.send('setQuestion2', q)
+    }
+  })
+
+  ipcMain.on('hideQuestion2', () => {
+    if (isViewerWindowOpen()) {
+      viewerWindow.webContents.send('setQuestion2', "")
+    }
+    if (isViewerWindowOpen()) {
+      responderWindow.webContents.send('setQuestion2', "")
     }
   })
 

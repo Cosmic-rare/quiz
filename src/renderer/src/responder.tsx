@@ -31,7 +31,7 @@ function Responder() {
   }
 
   if (stage==2) {
-    return <RType2 score={[...score].reverse()} stage={stage} />
+    return <RType2 score={[...score].reverse()} stage={stage} question={question} />
   }
 }
 

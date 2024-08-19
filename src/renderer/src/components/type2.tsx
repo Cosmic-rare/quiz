@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
 
-function App({ s, setS, filePath }) {
+function App({ s, setS }) {
   const [selectedLog, setSelectedLog] = useState(0)
   const [addLogScore, setAddLogScore] = useState<any>(0)
   const [questionStatus, setQuestionStatus] = useState<any>([])
   const [selectedStr, setSelectedStr] = useState(0)
   const [responderStatus, setResponderStatus] = useState<any>([0, 0, 0, 0])
+  const [selectedQuestion, setSelectedQuestion] = useState(0)
   const colors = ["red", "blue", "orange", "green"]
 
   const aryMax = function (a, b) { return Math.max(a, b) }
@@ -64,7 +65,7 @@ function App({ s, setS, filePath }) {
 
   useEffect(() => {
     // @ts-ignore
-    window.api.displayQuestion(s.question[0])
+    window.api.displayQuestion2(s.question[0])
   }, [])
 
   return (
@@ -154,6 +155,21 @@ function App({ s, setS, filePath }) {
 
       <hr />
       <code>{JSON.stringify(responderStatus)}</code>
+
+      <hr />
+      <div>
+        {/* @ts-ignore */}
+        <button onClick={() => window.api.displayQuestion(s.question[selectedQuestion])}>show</button>
+        {/* @ts-ignore */}
+        <button onClick={() => window.api.hideQuestion()}>hide</button>
+        <div>
+          {s.question?.slice(1).map((v, i) => (
+            <div key={i} onClick={() => setSelectedQuestion(i)}>
+              <code>{i == selectedQuestion ? "> " : ""}{v}</code>
+            </div>
+          ))}
+        </div>
+      </div>
     </>
   )
 }

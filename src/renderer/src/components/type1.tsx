@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 
 // {"s1":{"responder":["佐藤","田中","山田","伊藤","佐々木","高野"],"log":["s 5 2","i 0"],"question":["a","b","c"]},"s2":{"responder":["僕","私","吾","俺"],"log":[],"question":["『蒸気船ウィリー』という作品で初登場した、ディズニーを代表するキャラクターは"]},"s3":{"responder":["僕","吾"],"log":["i 0","i 0","i 0","i 1","i 1","i 0","i 1"],"question":["a","b"]}}
 
-function App({ s, setS, filePath }) {
+function App({ s, setS }) {
   const [score, setScore] = useState<any[]>([])
   const [selectedLog, setSelectedLog] = useState(0)
   const [addLogScore, setAddLogScore] = useState<any>(0)
