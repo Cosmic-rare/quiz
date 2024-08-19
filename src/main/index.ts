@@ -225,6 +225,15 @@ app.whenReady().then(() => {
     }
   })
 
+  ipcMain.on('setPenalty', (_, p) => {
+    if (isViewerWindowOpen()) {
+      viewerWindow.webContents.send('onSetPenalty', p)
+    }
+    if (isViewerWindowOpen()) {
+      responderWindow.webContents.send('onSetPenalty', p)
+    }
+  })
+
   createWindow()
 
   app.on('activate', function () {

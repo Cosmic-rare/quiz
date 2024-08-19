@@ -1,11 +1,11 @@
-function Responder({ score, stage, question }): JSX.Element {
+function Responder({ stage, question, penalty }): JSX.Element {
   return (
     <>
       <p>第{stage}ステージ</p>
+      <hr />
       <code>{question}</code>
-      {[...score].reverse().map((v, i) => (
-        <code key={i}>{v}{' '}</code>
-      ))}
+      <hr />
+      <code>{JSON.stringify(penalty)}</code>
     </>
   )
 }

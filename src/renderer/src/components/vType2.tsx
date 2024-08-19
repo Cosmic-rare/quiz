@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function Viewer({ stage, responder, question2, question }) {
+function Viewer({ stage, responder, question2, question, penalty }) {
   const colors = ["red", "blue", "orange", "green"]
   const [questionStatus, setQuestionStatue] = useState<any>([])
   const [responderStatus, setResponderStatus] = useState<any>([])
@@ -20,8 +20,12 @@ function Viewer({ stage, responder, question2, question }) {
       <code>{stage}ステージ</code>
       <hr />
       <code>{JSON.stringify(responder)}</code>
+      <hr />
       <code>{JSON.stringify(responderStatus)}</code>
+      <hr />
       <code>{question}</code>
+      <hr />
+      <code>{JSON.stringify(penalty)}</code>
       <hr />
       {question2?.split("").map((v, i) => (
           <span

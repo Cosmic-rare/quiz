@@ -7,6 +7,7 @@ function App({ s, setS }) {
   const [selectedStr, setSelectedStr] = useState(0)
   const [responderStatus, setResponderStatus] = useState<any>([0, 0, 0, 0])
   const [selectedQuestion, setSelectedQuestion] = useState(0)
+  const [penalty, setPenalty] = useState<any>([0, 0, 0, 0])
   const colors = ["red", "blue", "orange", "green"]
 
   const aryMax = function (a, b) { return Math.max(a, b) }
@@ -65,6 +66,11 @@ function App({ s, setS }) {
 
   useEffect(() => {
     // @ts-ignore
+    window.api.setPenalty(penalty)
+  }, [penalty])
+
+  useEffect(() => {
+    // @ts-ignore
     window.api.displayQuestion2(s.question[0])
   }, [])
 
@@ -92,10 +98,28 @@ function App({ s, setS }) {
               })}>
                 a
               </button>
+              <button onClick={() => setPenalty((pre) => {
+                let pr = [...pre]
+                pr[i] = pr[i] + 1
+                return pr
+              })}>
+                +
+              </button>
+              <button onClick={() => setPenalty((pre) => {
+                let pr = [...pre]
+                pr[i] = pr[i] - 1
+                return pr
+              })}>
+                -
+              </button>
             </div>
           ))}
         </div>
+        <button onClick={() => setPenalty((pre) => { return pre.map((v) => v - 1) })}>-</button>
+        <button onClick={() => setPenalty((pre) => { return pre.map((v) => v + 1) })}>+</button>
       </div>
+
+      <code>{JSON.stringify(penalty)}</code>
 
       <hr />
       <div>
@@ -115,10 +139,10 @@ function App({ s, setS }) {
 
       <hr />
       <div>
-      <button onClick={() => setSelectedQuestion((p) => { if (p==0) return p; return p-1 })}>↑</button>
-      <button onClick={() => setSelectedQuestion((p) => { if (p==s.question.length-2) return p; return p+1 })}>↓</button>
+        <button onClick={() => setSelectedQuestion((p) => { if (p == 0) return p; return p - 1 })}>↑</button>
+        <button onClick={() => setSelectedQuestion((p) => { if (p == s.question.length - 2) return p; return p + 1 })}>↓</button>
         {/* @ts-ignore */}
-        <button onClick={() => window.api.displayQuestion(s.question[selectedQuestion])}>show</button>
+        <button onClick={() => window.api.displayQuestion(s.question[selectedQuestion + 1])}>show</button>
         {/* @ts-ignore */}
         <button onClick={() => window.api.hideQuestion()}>hide</button>
         <div style={{ maxHeight: 300, overflowY: "scroll" }}>
@@ -161,6 +185,9 @@ function App({ s, setS }) {
             return { ...pre, log: lo }
           })
         }}>del</button>
+        <button onClick={() => setAddLogScore((p) => p + 1)}>+</button>
+        {addLogScore}
+        <button onClick={() => setAddLogScore((p) => p - 1)}>-</button>
         <div>
           {s.log.map((v, i) => (
             <div key={i} onClick={() => setSelectedLog(i)}>
@@ -168,9 +195,6 @@ function App({ s, setS }) {
             </div>
           ))}
         </div>
-        <button onClick={() => setAddLogScore((p) => p + 1)}>+</button>
-        {addLogScore}
-        <button onClick={() => setAddLogScore((p) => p - 1)}>-</button>
       </div>
     </>
   )

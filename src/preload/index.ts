@@ -20,6 +20,8 @@ const api = {
   onSetQuestionStatus: (callback) => ipcRenderer.on('onSetQuestionStatus', (_, q) => callback(q)),
   setResponderStatus: (q) => ipcRenderer.send('setResponderStatus', q),
   onSetResponderStatus: (callback) => ipcRenderer.on('onSetResponderStatus', (_, q) => callback(q)),
+  setPenalty: (p) => ipcRenderer.send('setPenalty', p),
+  onSetPenalty: (callback) => ipcRenderer.on('onSetPenalty', (_, p) => callback(p)),
 }
 
 if (process.contextIsolated) {

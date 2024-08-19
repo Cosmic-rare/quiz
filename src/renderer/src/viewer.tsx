@@ -7,6 +7,7 @@ function Viewer(): any {
   const [responder, setResponder] = useState([])
   const [question, setQuestion] = useState("")
   const [question2, setQuestion2] = useState("")
+  const [penalty, setPenalty] = useState<any>([0, 0, 0, 0])
 
   // @ts-ignore
   window.api.onSetStage((s, r) => {
@@ -24,17 +25,22 @@ function Viewer(): any {
     setQuestion2(q)
   })
 
+  // @ts-ignore
+  window.api.onSetPenalty((q) => {
+    setPenalty(q)
+  })
 
-  if (stage==0) {
+
+  if (stage == 0) {
     return (<>準備中</>)
   }
 
-  if (stage==1 || stage==3) {
+  if (stage == 1 || stage == 3) {
     return <VType1 responder={responder} stage={stage} question={question} />
   }
 
-  if (stage==2) {
-    return <VType2 responder={responder} stage={stage} question2={question2} question={question} />
+  if (stage == 2) {
+    return <VType2 responder={responder} stage={stage} question2={question2} question={question} penalty={penalty} />
   }
 }
 
