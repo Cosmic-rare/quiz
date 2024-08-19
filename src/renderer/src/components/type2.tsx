@@ -5,12 +5,17 @@ function App({ s, setS, filePath }) {
   const [addLogScore, setAddLogScore] = useState<any>(0)
   const [questionStatus, setQuestionStatus] = useState<any>([])
   const [selectedStr, setSelectedStr] = useState(0)
+  const [responderStatus, setResponderStatus] = useState<any>([0, 0, 0, 0])
   const colors = ["red", "blue", "orange", "green"]
+
+  const aryMax = function (a, b) { return Math.max(a, b) }
 
   const LogItem = ({ l, selected }) => {
     switch (l[0]) {
       case "o":
         return <code style={{ display: "block" }}>{`${selected ? ">" : ""} ${s.responder[parseInt(l.split(" ")[1])]}  ${s.question[0][l.split(" ")[2]]}`}</code>
+      case "a":
+        return <code style={{ display: "block" }}>{`${selected ? ">" : ""} ${s.responder[parseInt(l.split(" ")[1])]} 抜け`}</code>
     }
   }
 
@@ -22,6 +27,8 @@ function App({ s, setS, filePath }) {
         case "o":
           qs[l.split(" ")[2]] = parseInt(l.split(" ")[1])
           break
+        case "a":
+          responderStatus[l.split(" ")[1]] = responderStatus.reduce(aryMax) + 1
       }
     })
     setQuestionStatus(qs)
@@ -30,16 +37,25 @@ function App({ s, setS, filePath }) {
 
   const genQuestionStatus = () => {
     let qs = new Array(s.question[0]?.length).fill(null)
+    let counter = 1
+    let responderSt = [0, 0, 0, 0]
     s.log.forEach(l => {
       switch (l[0]) {
         case "o":
           qs[l.split(" ")[2]] = parseInt(l.split(" ")[1])
           break
+        case "a":
+          responderSt[l.split(" ")[1]] = counter
+          counter++
+          break
       }
     })
     setQuestionStatus(qs)
+    setResponderStatus(responderSt)
     // @ts-ignore
     window.api.setQuestionStatus(qs)
+    // @ts-ignore
+    window.api.setResponderStatus(responderSt)
   }
 
   useEffect(() => {
@@ -70,6 +86,11 @@ function App({ s, setS, filePath }) {
               <button onClick={() => setS((pre) => {
                 return { ...pre, log: [...pre.log, `o ${i} ${selectedStr}`] }
               })}>o</button>
+              <button onClick={() => setS((pre) => {
+                return { ...pre, log: [...pre.log, `a ${i}`] }
+              })}>
+                a
+              </button>
             </div>
           ))}
         </div>
@@ -130,6 +151,9 @@ function App({ s, setS, filePath }) {
           </span>
         ))}
       </div>
+
+      <hr />
+      <code>{JSON.stringify(responderStatus)}</code>
     </>
   )
 }

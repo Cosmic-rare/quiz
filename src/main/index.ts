@@ -195,6 +195,12 @@ app.whenReady().then(() => {
     }
   })
 
+  ipcMain.on('setResponderStatus', (_, p) => {
+    if (isViewerWindowOpen()) {
+      viewerWindow.webContents.send('onSetResponderStatus', p)
+    }
+  })
+
   createWindow()
 
   app.on('activate', function () {

@@ -4,6 +4,7 @@ function Viewer({ stage, responder, question }) {
   const colors = ["red", "blue", "orange", "green"]
   const [score, setScore] = useState([])
   const [questionStatus, setQuestionStatue] = useState<any>([])
+  const [responderStatus, setResponderStatus] = useState<any>([])
 
   // @ts-ignore
   window.api.onLoadScore((ss) => {
@@ -15,11 +16,17 @@ function Viewer({ stage, responder, question }) {
     setQuestionStatue(q)
   })
 
+  // @ts-ignore
+  window.api.onSetResponderStatus((q) => {
+    setResponderStatus(q)
+  })
+
   return (
     <>
       <code>{stage}ステージ</code>
       <hr />
       <code>{JSON.stringify(responder)}</code>
+      <code>{JSON.stringify(responderStatus)}</code>
       <hr />
       {question?.split("").map((v, i) => (
           <span
