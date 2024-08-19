@@ -99,6 +99,39 @@ function App({ s, setS }) {
 
       <hr />
       <div>
+        {s.question[0]?.split("").map((v, i) => (
+          <span
+            key={i}
+            style={{ border: `${selectedStr == i ? "4px solid black" : `2px solid ${questionStatus[i] != null ? colors[questionStatus[i]] : "transparent"}`}` }}
+            onClick={() => setSelectedStr(i)}
+          >
+            {v}
+          </span>
+        ))}
+      </div>
+
+      <hr />
+      <code>{JSON.stringify(responderStatus)}</code>
+
+      <hr />
+      <div>
+      <button onClick={() => setSelectedQuestion((p) => { if (p==0) return p; return p-1 })}>↑</button>
+      <button onClick={() => setSelectedQuestion((p) => { if (p==s.question.length-2) return p; return p+1 })}>↓</button>
+        {/* @ts-ignore */}
+        <button onClick={() => window.api.displayQuestion(s.question[selectedQuestion])}>show</button>
+        {/* @ts-ignore */}
+        <button onClick={() => window.api.hideQuestion()}>hide</button>
+        <div style={{ maxHeight: 300, overflowY: "scroll" }}>
+          {s.question?.slice(1).map((v, i) => (
+            <div key={i}>
+              <code>{i == selectedQuestion ? "> " : ""}{v}</code>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <hr />
+      <div>
         <button onClick={() => {
           setS((pre) => {
             if (s.log.length - 1 == selectedLog) { return pre }
@@ -138,37 +171,6 @@ function App({ s, setS }) {
         <button onClick={() => setAddLogScore((p) => p + 1)}>+</button>
         {addLogScore}
         <button onClick={() => setAddLogScore((p) => p - 1)}>-</button>
-      </div>
-
-      <hr />
-      <div>
-        {s.question[0]?.split("").map((v, i) => (
-          <span
-            key={i}
-            style={{ border: `${selectedStr == i ? "4px solid black" : `2px solid ${questionStatus[i] != null ? colors[questionStatus[i]] : "transparent"}`}` }}
-            onClick={() => setSelectedStr(i)}
-          >
-            {v}
-          </span>
-        ))}
-      </div>
-
-      <hr />
-      <code>{JSON.stringify(responderStatus)}</code>
-
-      <hr />
-      <div>
-        {/* @ts-ignore */}
-        <button onClick={() => window.api.displayQuestion(s.question[selectedQuestion])}>show</button>
-        {/* @ts-ignore */}
-        <button onClick={() => window.api.hideQuestion()}>hide</button>
-        <div>
-          {s.question?.slice(1).map((v, i) => (
-            <div key={i} onClick={() => setSelectedQuestion(i)}>
-              <code>{i == selectedQuestion ? "> " : ""}{v}</code>
-            </div>
-          ))}
-        </div>
       </div>
     </>
   )

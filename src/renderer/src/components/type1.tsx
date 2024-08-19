@@ -92,6 +92,23 @@ function App({ s, setS }) {
 
       <hr />
       <div>
+        <button onClick={() => setSelectedQuestion((p) => { if (p==0) return p; return p-1 })}>↑</button>
+        <button onClick={() => setSelectedQuestion((p) => { if (p==s.question.length-1) return p; return p+1 })}>↓</button>
+        {/* @ts-ignore */}
+        <button onClick={() => window.api.displayQuestion(s.question[selectedQuestion])}>show</button>
+        {/* @ts-ignore */}
+        <button onClick={() => window.api.hideQuestion()}>hide</button>
+        <div style={{ maxHeight: 300, overflowY: "scroll" }}>
+          {s.question?.map((v, i) => (
+            <div key={i}>
+              <code>{i == selectedQuestion ? "> " : ""}{v}</code>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <hr />
+      <div>
         <button onClick={() => {
           setS((pre) => {
             if (s.log.length - 1 == selectedLog) { return pre }
@@ -132,24 +149,6 @@ function App({ s, setS }) {
         {addLogScore}
         <button onClick={() => setAddLogScore((p) => p - 1)}>-</button>
       </div>
-
-      <hr />
-      <div>
-        {/* @ts-ignore */}
-        <button onClick={() => window.api.displayQuestion(s.question[selectedQuestion])}>show</button>
-        {/* @ts-ignore */}
-        <button onClick={() => window.api.hideQuestion()}>hide</button>
-        <div>
-          {s.question?.map((v, i) => (
-            <div key={i} onClick={() => setSelectedQuestion(i)}>
-              <code>{i == selectedQuestion ? "> " : ""}{v}</code>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <hr />
-      <code>{JSON.stringify(score)}</code>
     </>
   )
 }
