@@ -11,7 +11,7 @@ function App({ s, setS }) {
 
   const aryMax = function (a, b) { return Math.max(a, b) }
 
-  const LogItem = ({ l, selected }) => {
+  const LogItem = ({ l, selected }): any => {
     switch (l[0]) {
       case "o":
         return <code style={{ display: "block" }}>{`${selected ? ">" : ""} ${s.responder[parseInt(l.split(" ")[1])]}  ${s.question[0][l.split(" ")[2]]}`}</code>

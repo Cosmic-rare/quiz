@@ -8,7 +8,7 @@ function App({ s, setS }) {
   const [addLogScore, setAddLogScore] = useState<any>(0)
   const [selectedQuestion, setSelectedQuestion] = useState(0)
 
-  const LogItem = ({ l, selected }) => {
+  const LogItem = ({ l, selected }): any => {
     switch (l[0]) {
       case "s":
         return <code style={{ display: "block" }}>{`${selected ? ">" : ""} ${s.responder[parseInt(l.split(" ")[1])]}  ${l.split(" ")[2]}`}</code>

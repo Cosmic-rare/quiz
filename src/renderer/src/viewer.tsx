@@ -2,7 +2,7 @@ import { useState } from 'react'
 import VType1 from "./components/vType1"
 import VType2 from "./components/vType2"
 
-function Viewer() {
+function Viewer(): any {
   const [stage, setStage] = useState(0)
   const [responder, setResponder] = useState([])
   const [question, setQuestion] = useState("")

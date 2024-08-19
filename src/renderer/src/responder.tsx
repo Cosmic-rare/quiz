@@ -2,7 +2,7 @@ import { useState } from 'react'
 import RType1 from "./components/rType1"
 import RType2 from "./components/rType2"
 
-function Responder() {
+function Responder(): any {
   const [stage, setStage] = useState(0)
   const [score, setScore] = useState([])
   const [question, setQuestion] = useState("")
