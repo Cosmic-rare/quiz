@@ -181,11 +181,17 @@ app.whenReady().then(() => {
     if (isViewerWindowOpen()) {
       viewerWindow.webContents.send('setQuestion', q)
     }
+    if (isViewerWindowOpen()) {
+      responderWindow.webContents.send('setQuestion', q)
+    }
   })
 
   ipcMain.on('hideQuestion', () => {
     if (isViewerWindowOpen()) {
       viewerWindow.webContents.send('setQuestion', "")
+    }
+    if (isViewerWindowOpen()) {
+      responderWindow.webContents.send('setQuestion', "")
     }
   })
 

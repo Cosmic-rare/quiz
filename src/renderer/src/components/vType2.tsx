@@ -2,14 +2,8 @@ import { useState } from 'react'
 
 function Viewer({ stage, responder, question }) {
   const colors = ["red", "blue", "orange", "green"]
-  const [score, setScore] = useState([])
   const [questionStatus, setQuestionStatue] = useState<any>([])
   const [responderStatus, setResponderStatus] = useState<any>([])
-
-  // @ts-ignore
-  window.api.onLoadScore((ss) => {
-    setScore(ss)
-  })
 
   // @ts-ignore
   window.api.onSetQuestionStatus((q) => {
