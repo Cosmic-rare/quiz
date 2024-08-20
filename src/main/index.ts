@@ -55,8 +55,8 @@ app.whenReady().then(() => {
       viewerWindow = new BrowserWindow({
         title: 'Viewer',
         autoHideMenuBar: true,
-        width: 200,
-        height: 150,
+        width: 850,
+        height: 480,
         webPreferences: {
           preload: join(__dirname, '../preload/index.js'),
           nodeIntegration: true,
