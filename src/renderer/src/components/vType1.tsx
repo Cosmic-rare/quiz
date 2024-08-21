@@ -24,7 +24,7 @@ function Viewer({ stage, responder, question }) {
         {score.map((v, i) => {
           return (
             <div style={{ gridRow: "5 / 8", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "1.85rem" }} key={i}>
-              {v}
+              {v == 0 ? "out" : v}
             </div>
           )
         })}

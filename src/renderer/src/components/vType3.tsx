@@ -39,7 +39,7 @@ function Viewer({ stage, responder, question }) {
           {responder[0].split(",")[0]}
         </div>
         <div style={{ gridColumn: "2 / 3", gridRow: "6 / 9", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "1.85rem" }}>
-          {score[0]}
+          {score[0] >= 7 ? "win" : score[0]}
         </div>
         <div style={{ gridColumn: "2 / 3", gridRow: "9 / 15", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "1.5rem", writingMode: "vertical-rl" }}>
           {responder[0].split(",")[1]}
@@ -51,7 +51,7 @@ function Viewer({ stage, responder, question }) {
           {responder[1].split(",")[0]}
         </div>
         <div style={{ gridColumn: "3 / 4", gridRow: "6 / 9", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "1.85rem" }}>
-          {score[1]}
+        {score[1] >= 7 ? "win" : score[1]}
         </div>
         <div style={{ gridColumn: "3 / 4", gridRow: "9 / 15", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "1.5rem", writingMode: "vertical-rl" }}>
           {responder[1].split(",")[1]}
