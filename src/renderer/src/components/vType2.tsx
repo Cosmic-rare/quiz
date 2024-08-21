@@ -101,9 +101,8 @@ function Viewer({ stage, responder, question2, question, penalty }) {
                   style={{
                     border: `2px solid ${questionStatus[i] != null ? colors[questionStatus[i]] : "transparent"}`,
                     backgroundColor: questionStatus[i] == null ? "#DDDDDD" : "transparent",
-                    color: questionStatus[i] == null ? "transparent" : "black",
+                    fontSize: questionStatus[i] == null ? "1.25rem" : "2rem",
                     margin: 2,
-                    fontSize: "2rem",
                     width: 42,
                     height: 42,
                     display: "flex",
@@ -111,7 +110,7 @@ function Viewer({ stage, responder, question2, question, penalty }) {
                     alignItems: "center"
                   }}
                 >
-                  {v}
+                  {questionStatus[i] == null ? i + 1 : v}
                 </div>
               </>
             )
