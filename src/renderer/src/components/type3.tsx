@@ -4,6 +4,7 @@ function App({ s, setS }) {
   const [_, setScore] = useState<any[]>([])
   const [selectedLog, setSelectedLog] = useState(0)
   const [addLogScore, setAddLogScore] = useState<any>(0)
+  const [selectedQuestion, setSelectedQuestion] = useState(0)
 
   const LogItem = ({ l, selected }): any => {
     switch (l[0]) {
@@ -82,6 +83,23 @@ function App({ s, setS }) {
               <button onClick={() => setS((pre) => {
                 return { ...pre, log: [...pre.log, `s ${i} ${addLogScore}`] }
               })}>s</button>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <hr />
+      <div>
+        <button onClick={() => setSelectedQuestion((p) => { if (p==0) return p; return p-1 })}>↑</button>
+        <button onClick={() => setSelectedQuestion((p) => { if (p==s.question.length-1) return p; return p+1 })}>↓</button>
+        {/* @ts-ignore */}
+        <button onClick={() => window.api.displayQuestion(s.question[selectedQuestion])}>show</button>
+        {/* @ts-ignore */}
+        <button onClick={() => window.api.hideQuestion()}>hide</button>
+        <div style={{ maxHeight: 300, overflowY: "scroll" }}>
+          {s.question?.map((v, i) => (
+            <div key={i}>
+              <code>{i == selectedQuestion ? "> " : ""}{v}</code>
             </div>
           ))}
         </div>

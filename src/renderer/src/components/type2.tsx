@@ -2,7 +2,6 @@ import { useEffect, useState } from "react"
 
 function App({ s, setS }) {
   const [selectedLog, setSelectedLog] = useState(0)
-  const [addLogScore, setAddLogScore] = useState<any>(0)
   const [questionStatus, setQuestionStatus] = useState<any>([])
   const [selectedStr, setSelectedStr] = useState(0)
   const [responderStatus, setResponderStatus] = useState<any>([0, 0, 0, 0])
@@ -185,9 +184,6 @@ function App({ s, setS }) {
             return { ...pre, log: lo }
           })
         }}>del</button>
-        <button onClick={() => setAddLogScore((p) => p + 1)}>+</button>
-        {addLogScore}
-        <button onClick={() => setAddLogScore((p) => p - 1)}>-</button>
         <div>
           {s.log.map((v, i) => (
             <div key={i} onClick={() => setSelectedLog(i)}>

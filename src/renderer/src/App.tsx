@@ -1,6 +1,7 @@
 import { useState } from "react"
 import Type1 from "./components/type1"
 import Type2 from "./components/type2"
+import Type3 from "./components/type3"
 
 // {"s1":{"responder":["佐藤","田中","山田","伊藤","佐々木","高野"],"log":["s 5 2","i 0"],"question":["a","b","c"]},"s2":{"responder":["僕","私","吾","俺"],"log":[],"question":["『蒸気船ウィリー』という作品で初登場した、ディズニーを代表するキャラクターは"]},"s3":{"responder":["僕","吾"],"log":["i 0","i 0","i 0","i 1","i 1","i 0","i 1"],"question":["a","b"]}}
 
@@ -56,13 +57,19 @@ function App(): JSX.Element {
 
       {mainStage == null ?
         <></>
-        : mainStage == 2 ?
-          <Type2 s={s} setS={setS} /> :
-          mainStage != 0 ?
-            <Type1 s={s} setS={setS} />
-            : <></>
+        : mainStage == 1 ?
+          <Type1 s={s} setS={setS} /> : <></>
       }
-
+      {mainStage == null ?
+        <></>
+        : mainStage == 2 ?
+          <Type2 s={s} setS={setS} /> : <></>
+      }
+      {mainStage == null ?
+        <></>
+        : mainStage == 3 ?
+          <Type3 s={s} setS={setS} /> : <></>
+      }
     </>
   )
 }
