@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function Viewer({ stage, responder, question }) {
+function Viewer({ responder }) {
   const [score, setScore] = useState([])
 
   // @ts-ignore

@@ -10,7 +10,7 @@ const Dots = ({ c }) => {
   )
 }
 
-function Viewer({ stage, responder, question }) {
+function Viewer({ responder, question }) {
   const [score, setScore] = useState([])
 
   // @ts-ignore

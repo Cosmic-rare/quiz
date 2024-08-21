@@ -10,7 +10,7 @@ const Dots = ({ c }) => {
   )
 }
 
-function Viewer({ stage, responder, question2, question, penalty }) {
+function Viewer({ responder, question2, question, penalty }) {
   const colors = ["red", "blue", "orange", "green"]
   const [questionStatus, setQuestionStatue] = useState<any>([])
   const [responderStatus, setResponderStatus] = useState<any>([])

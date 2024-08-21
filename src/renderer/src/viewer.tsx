@@ -37,15 +37,15 @@ function Viewer(): any {
   }
 
   if (stage == 1) {
-    return <VType1 responder={responder} stage={stage} question={question} />
+    return <VType1 responder={responder} />
   }
 
   if (stage == 2) {
-    return <VType2 responder={responder} stage={stage} question2={question2} question={question} penalty={penalty} />
+    return <VType2 responder={responder} question2={question2} question={question} penalty={penalty} />
   }
 
   if (stage == 3) {
-    return <VType3 responder={responder} stage={stage} question={question} />
+    return <VType3 responder={responder} question={question} />
   }
 }
 
