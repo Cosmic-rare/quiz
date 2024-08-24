@@ -1,11 +1,13 @@
 function Responder({ stage, question, penalty }): JSX.Element {
   return (
     <>
-      <p>第{stage}ステージ</p>
-      <hr />
-      <code>{question}</code>
-      <hr />
-      <code>{JSON.stringify(penalty)}</code>
+      <p style={{ fontSize: "3.5rem", marginLeft: 30 }}>第{stage}ステージ</p>
+      <div style={{ display: "flex", justifyContent: "space-between", flexDirection: "row", paddingLeft: stage == 1 ? 30 : 150, paddingRight: stage == 1 ? 30 : 150 }}>
+        {[...penalty].map((v, i) => (
+          <div style={{ fontSize: "6rem" }} key={i}>{v == 0 ? "-" : v}</div>
+        ))}
+      </div>
+      <p style={{ fontSize: "2.75rem", paddingLeft: 30, paddingRight: 30 }}>問題: {question}</p>
     </>
   )
 }

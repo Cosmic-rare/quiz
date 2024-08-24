@@ -90,8 +90,8 @@ function Viewer({ responder, question2, question, penalty }) {
                       backgroundColor: questionStatus[i] == null ? "#DDDDDD" : "#FFF",
                       fontSize: questionStatus[i] == null ? "1.5rem" : "2.75rem",
                       margin: 2,
-                      width: 70,
-                      height: 70,
+                      width: 74,
+                      height: 74,
                       display: "flex",
                       justifyContent: "center",
                       alignItems: "center"

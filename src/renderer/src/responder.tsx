@@ -37,7 +37,7 @@ function Responder(): any {
   }
 
   if (stage == 2) {
-    return <RType2 stage={stage} question={question} penalty={penalty} />
+    return <RType2 stage={stage} question={question} penalty={[...penalty].reverse()} />
   }
 }
 

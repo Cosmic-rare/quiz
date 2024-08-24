@@ -23,7 +23,7 @@ function Viewer({ responder, question }) {
     <>
       <div style={{ backgroundColor: "black", display: "grid", "gridTemplateColumns": "repeat(5, 1fr)", gridTemplateRows: "repeat(15, 1fr)", gap: 0, height: "100vh", width: "100vw" }}>
         <div style={{ backgroundColor: "black", color: "white", gridColumn: "1 / 6", paddingLeft: "5%", paddingRight: "5%", fontSize: "2rem", display: "flex", alignItems: "center" }}>
-          3rdステージ{"  "}<span style={{ fontStyle: "italic", marginLeft: 20 }}>FINALだけ良い名称が思いつかない…</span>
+          3rdステージ{"  "}<span style={{ marginLeft: 20 }}>優勝を掴め！7サイドアウト</span>
         </div>
         <div style={{ backgroundColor: "black", color: "white", gridColumn: "1 / 6", gridRow: "2 / 5", paddingLeft: "5%", paddingRight: "5%", fontSize: "2.8rem", paddingTop: 10 }}>
           問題: {question ? question : " "}
@@ -43,7 +43,7 @@ function Viewer({ responder, question }) {
         </div>
         <div style={{ gridColumn: "2 / 3", gridRow: "6 / 9", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "5rem" }}>
           <div style={{ height: "80%", aspectRatio: "1/1", borderRadius: "50%", border: `5px solid ${colors[3]}`, display: "flex", justifyContent: "center", alignItems: "center", }}>
-            <p style={{ background: "black", color: "white", border: "15px solid black" }}>
+            <p style={{ color: "white" }}>
               {score[0] >= 7 ? "win" : score[0]}
             </p>
           </div>
@@ -63,7 +63,7 @@ function Viewer({ responder, question }) {
         </div>
         <div style={{ gridColumn: "4 / 5", gridRow: "6 / 9", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "5rem" }}>
           <div style={{ height: "80%", aspectRatio: "1/1", borderRadius: "50%", border: `5px solid ${colors[3]}`, display: "flex", justifyContent: "center", alignItems: "center", }}>
-            <p style={{ background: "black", color: "white", border: "15px solid black" }}>
+            <p style={{ color: "white" }}>
               {score[1] >= 7 ? "win" : score[1]}
             </p>
           </div>

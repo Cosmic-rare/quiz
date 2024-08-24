@@ -28,7 +28,7 @@ function Viewer({ responder }) {
           return (
             <div style={{ gridRow: "5 / 8", display: "flex", justifyContent: "center", alignItems: "center", fontSize: "5rem" }} key={i}>
               <div style={{ height: "80%", aspectRatio: "1/1", borderRadius: "50%", border: `5px solid ${v == 0 ? colors[1] : colors[0]}`, display: "flex", justifyContent: "center", alignItems: "center", }}>
-              <p style={{ background: "black", color: "white", border: "10px solid black" }}>
+              <p style={{ color: "white" }}>
               {v == 0 ? "out" : v}
               </p>
               </div>
